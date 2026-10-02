@@ -46,7 +46,12 @@ INSERT INTO public.inventory (name, stock) VALUES
 ('Lattafa Bade''e Al Oud Noble Blush', 1),
 ('Philos Pura', 1),
 ('Haya Pink', 1),
-('Opulent Musk', 1)
+('Opulent Musk', 1),
+('Afnan 9 PM Night Out', -1),
+('Rayhaan Ocean Rush', -1),
+('Armaf Odyssey Candee', 1),
+('Lattafa Pride Nebras Elixir', 1),
+('Risala Amalia', 1)
 ON CONFLICT (name) DO UPDATE SET stock = EXCLUDED.stock;
 
 ALTER TABLE public.inventory ENABLE ROW LEVEL SECURITY;

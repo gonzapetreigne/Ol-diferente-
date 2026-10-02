@@ -218,7 +218,15 @@ const NOTAS_OLFATIVAS = {
     "ámbar": "Imagenes_Notas_Olfativas/Ámbar.jpg",
     "incienso": "Imagenes_Notas_Olfativas/Incienso.jpg",
     "cedro": "Imagenes_Notas_Olfativas/Cedro.jpg",
-    "pachulí": "Imagenes_Notas_Olfativas/Pachulí.jpg"
+    "pachulí": "Imagenes_Notas_Olfativas/Pachulí.jpg",
+    "Frambuesa": "Imagenes_Notas_Olfativas/Frambuesa.jpg",
+    "Maracuyá": "Imagenes_Notas_Olfativas/Frutas Tropicales.jpg",
+    "Dulce de Leche": "Imagenes_Notas_Olfativas/Dulce de leche.jpg",
+    "Caramelo de Leche": "Imagenes_Notas_Olfativas/Caramelo de leche.jpg",
+    "Clavo de Olor": "Imagenes_Notas_Olfativas/Clavo de olor.jpg",
+    "Caña de Azúcar": "Imagenes_Notas_Olfativas/Algodón de azúcar.jpg",
+    "Ámbar Mineral": "Imagenes_Notas_Olfativas/Ámbar.jpg",
+    "Ciprés": "Imagenes_Notas_Olfativas/Cedro.jpg"
 };
 
 /**
@@ -227,6 +235,11 @@ const NOTAS_OLFATIVAS = {
  * Si no está en la lista, se mostrará un valor predeterminado equilibrado.
  */
 const SEASONS_DATA = {
+    "odyssey-candee.html": { winter: 60, autumn: 75, spring: 90, summer: 70 },
+    "nebras-elixir.html": { winter: 95, autumn: 90, spring: 60, summer: 30 },
+    "ocean-rush.html": { winter: 20, autumn: 50, spring: 90, summer: 100 },
+    "amalia.html": { winter: 80, autumn: 85, spring: 75, summer: 50 },
+    "9pm-night-out.html": { winter: 95, autumn: 90, spring: 60, summer: 25 },
     "philos-pura.html": { winter: 50, autumn: 70, spring: 90, summer: 80 },
     "khamrah-lattafa.html": { winter: 100, autumn: 90, spring: 30, summer: 10 },
     "khamrah-qahwa.html": { winter: 100, autumn: 90, spring: 20, summer: 10 },
