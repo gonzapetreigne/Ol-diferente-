@@ -5,4 +5,5 @@ dist/
 .vscode/
 .gemini/
 _backup_orig/
+_originals_backup/
 scratch/

@@ -24,7 +24,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 echo.
-git add Catalogo_Perfumes_Ole_Diferente.xlsx tienda.html productos/*.html
+git add Catalogo_Perfumes_Ole_Diferente.xlsx tienda.html productos/*.html img/fragancias/*
 git diff --staged --quiet
 if errorlevel 1 (
     echo [2/3] Subiendo cambios a GitHub Pages (web en vivo)...
