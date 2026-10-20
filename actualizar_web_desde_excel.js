@@ -264,7 +264,7 @@ async function syncCatalog() {
                         return updated;
                     }
                     if (line.includes('class="product-price"')) {
-                        return line.replace(/(<div class="product-price">)[^<]*(<\/div>)/, `$1$${data.priceStr}$2`);
+                        return line.replace(/(<div class="product-price">)[^<]*(<\/div>)/, (match, p1, p2) => `${p1}$${data.priceStr}${p2}`);
                     }
                     return line;
                 });
@@ -295,7 +295,7 @@ async function syncCatalog() {
             let detailHtml = fs.readFileSync(filePath, 'utf8');
             const priceRegex = /(<span class="detail-price"[^>]*>)([^<]*)(<\/span>)/i;
             if (detailHtml.match(priceRegex)) {
-                detailHtml = detailHtml.replace(priceRegex, `$1$${item.data.priceStr}$3`);
+                detailHtml = detailHtml.replace(priceRegex, (match, p1, p2, p3) => `${p1}$${item.data.priceStr}${p3}`);
                 fs.writeFileSync(filePath, detailHtml, 'utf8');
                 detailUpdatedCount++;
             }
