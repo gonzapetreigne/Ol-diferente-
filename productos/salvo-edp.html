@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salvo Eau de Parfum - OLÉ DIFERENTE</title>
+    <meta name="referrer" content="no-referrer">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/tienda.css?v=10">
+    <link rel="stylesheet" href="../css/producto.css?v=10">
+    <link rel="stylesheet" href="../css/cart.css?v=10">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header></header>
+    <div class="container">
+        <a href="../tienda.html" class="back-to-shop">
+            <i data-lucide="arrow-left"></i> VOLVER A LA TIENDA
+        </a>
+        <div class="product-detail-container" data-name="Salvo Eau de Parfum">
+            <div class="product-detail-image-wrapper">
+                <img src="../img/fragancias/Salvo Eau de Parfum - Maison Alhambra - 100ml.jpg" alt="Salvo Eau de Parfum" class="product-detail-image">
+            </div>
+            <div class="product-detail-info">
+                <span class="detail-gender">GÉNERO: MASCULINA</span>
+                <h1 class="detail-title">Salvo Eau de Parfum</h1>
+                <p class="detail-description">
+                    Inspirada en el célebre perfil olfativo de Sauvage Eau de Parfum, Salvo de Maison Alhambra es una fragancia Oriental Fougère para hombres que irradia magnetismo, frescura salvaje y elegancia contemporánea. Abre con una explosión radiante de bergamota de Calabria, para desplegar un corazón especiado y aromático enriquecido con lavanda, anís estrellado, pimienta de Sichuan y nuez moscada. Su fondo reposa sobre una base sensual y adictiva de ambroxan y vainilla pura, convirtiéndola en una verdadera bestia de versatilidad y cumplidos.
+                </p>
+                <div class="detail-price-container" style="margin-bottom: 25px;">
+                    <span class="detail-price" style="font-size: 32px; font-weight: 700; color: var(--text-primary);">$72.000</span>
+                    <span class="detail-size-label" style="font-size: 14px; color: var(--text-secondary); margin-left: 10px;">/ 100 ml</span>
+                </div>
+
+                <!-- Pirámide Olfativa (Fragrantica) -->
+                <div class="visual-notes">
+                    <div class="pyramid-section">
+                        <div class="pyramid-header"><span>NOTAS DE SALIDA</span></div>
+                        <div class="pyramid-grid">
+                            <div class="ingredient-item">
+                                <div class="ingredient-icon"><img src="../Imagenes_Notas_Olfativas/Bergamota.jpg" alt="Bergamota"></div>
+                                <span class="ingredient-name">Bergamota</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pyramid-section">
+                        <div class="pyramid-header"><span>CORAZÓN</span></div>
+                        <div class="pyramid-grid">
+                            <div class="ingredient-item">
+                                <div class="ingredient-icon"><img src="../Imagenes_Notas_Olfativas/Pimienta de Sichuan.jpg" alt="Pimienta de Sichuan"></div>
+                                <span class="ingredient-name">Pimienta de Sichuan</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <div class="ingredient-icon"><img src="../Imagenes_Notas_Olfativas/Lavanda.jpg" alt="Lavanda"></div>
+                                <span class="ingredient-name">Lavanda</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <div class="ingredient-icon"><img src="../Imagenes_Notas_Olfativas/Anís estrellado.jpg" alt="Anís estrellado"></div>
+                                <span class="ingredient-name">Anís estrellado</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <div class="ingredient-icon"><img src="../Imagenes_Notas_Olfativas/Nuez moscada.jpg" alt="Nuez moscada"></div>
+                                <span class="ingredient-name">Nuez moscada</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pyramid-section">
+                        <div class="pyramid-header"><span>BASE</span></div>
+                        <div class="pyramid-grid">
+                            <div class="ingredient-item">
+                                <div class="ingredient-icon"><img src="../Imagenes_Notas_Olfativas/Ambroxan.jpg" alt="Ambroxan"></div>
+                                <span class="ingredient-name">Ambroxan</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <div class="ingredient-icon"><img src="../Imagenes_Notas_Olfativas/Vainilla.jpg" alt="Vainilla"></div>
+                                <span class="ingredient-name">Vainilla</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acordes Principales (Fragrantica) -->
+                <div class="accords-container">
+                    <h3 class="accords-title">Acordes Principales</h3>
+                    
+                    <div class="accord-bar-wrapper">
+                        <span class="accord-label">Ámbar</span>
+                        <div class="accord-bar-bg"><div class="accord-bar-fill" style="width: 100%; background: #ff9933;"></div></div>
+                    </div>
+                    <div class="accord-bar-wrapper">
+                        <span class="accord-label">Especiado Fresco</span>
+                        <div class="accord-bar-bg"><div class="accord-bar-fill" style="width: 90%; background: #5dade2;"></div></div>
+                    </div>
+                    <div class="accord-bar-wrapper">
+                        <span class="accord-label">Cítrico</span>
+                        <div class="accord-bar-bg"><div class="accord-bar-fill" style="width: 85%; background: #f4d03f;"></div></div>
+                    </div>
+                    <div class="accord-bar-wrapper">
+                        <span class="accord-label">Aromático</span>
+                        <div class="accord-bar-bg"><div class="accord-bar-fill" style="width: 80%; background: #58d68d;"></div></div>
+                    </div>
+                    <div class="accord-bar-wrapper">
+                        <span class="accord-label">Cálido Especiado</span>
+                        <div class="accord-bar-bg"><div class="accord-bar-fill" style="width: 75%; background: #e67e22;"></div></div>
+                    </div>
+                    <div class="accord-bar-wrapper">
+                        <span class="accord-label">Avainillado</span>
+                        <div class="accord-bar-bg"><div class="accord-bar-fill" style="width: 70%; background: #f5b041;"></div></div>
+                    </div>
+                </div>
+
+                <!-- Ocasiones de Uso y Versatilidad (Fragrantica) -->
+                <div class="occasions-section" style="margin-top: 35px; padding-top: 25px; border-top: 1px solid var(--border-color);">
+                    <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-primary); margin-bottom: 18px; font-weight: 700;">
+                        <i data-lucide="compass" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px; color: var(--accent-color, #c5a059);"></i>
+                        Ocasiones de Uso Recomendadas
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 15px;">
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 10px; text-align: center;">
+                            <i data-lucide="sun" style="width: 20px; height: 20px; color: #f4d03f; margin-bottom: 6px;"></i>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary);">Día y Noche</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Adaptabilidad 24/7</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 10px; text-align: center;">
+                            <i data-lucide="briefcase" style="width: 20px; height: 20px; color: #5dade2; margin-bottom: 6px;"></i>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary);">Oficina y Trabajo</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Proyección limpia</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 10px; text-align: center;">
+                            <i data-lucide="flame" style="width: 20px; height: 20px; color: #e74c3c; margin-bottom: 6px;"></i>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary);">Citas y Salidas</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Magnético y seductor</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 10px; text-align: center;">
+                            <i data-lucide="award" style="width: 20px; height: 20px; color: #f39c12; margin-bottom: 6px;"></i>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary);">Fragancia Firma</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Todoterreno 10/10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controles de Compra -->
+                <div class="purchase-controls" style="margin-top: 30px; display: flex; gap: 15px; align-items: center;">
+                    <input type="number" class="quantity-selector" value="1" min="1" style="width: 70px; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-primary); text-align: center;">
+                    <button class="add-to-cart-btn" style="flex-grow: 1; padding: 18px 40px; font-size: 16px;">AGREGAR AL CARRITO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer></footer>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/components.js?v=10"></script>
+    <script src="../js/product_manager.js?v=3"></script>
+    <script src="../js/cart.js?v=2"></script>
+</body>
+</html>

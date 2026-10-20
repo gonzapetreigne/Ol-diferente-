@@ -4,6 +4,10 @@
  */
 
 const NOTAS_OLFATIVAS = {
+    "Anís estrellado": "Imagenes_Notas_Olfativas/Anís estrellado.jpg",
+    "Anís": "Imagenes_Notas_Olfativas/Anís estrellado.jpg",
+    "Bergamota de Calabria": "Imagenes_Notas_Olfativas/Bergamota.jpg",
+    "Vainilla de Papúa Nueva Guinea": "Imagenes_Notas_Olfativas/Vainilla.jpg",
     "Naranja Siciliana": "Imagenes_Notas_Olfativas/Naranja.jpg",
     "Limón": "Imagenes_Notas_Olfativas/Limón.jpg",
     "Bergamota": "Imagenes_Notas_Olfativas/Bergamota.jpg",
@@ -235,6 +239,7 @@ const NOTAS_OLFATIVAS = {
  * Si no está en la lista, se mostrará un valor predeterminado equilibrado.
  */
 const SEASONS_DATA = {
+    "salvo-edp.html": { winter: 70, autumn: 90, spring: 95, summer: 75 },
     "odyssey-candee.html": { winter: 60, autumn: 75, spring: 90, summer: 70 },
     "nebras-elixir.html": { winter: 95, autumn: 90, spring: 60, summer: 30 },
     "ocean-rush.html": { winter: 20, autumn: 50, spring: 90, summer: 100 },
