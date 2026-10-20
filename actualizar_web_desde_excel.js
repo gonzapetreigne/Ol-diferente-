@@ -79,7 +79,8 @@ async function syncCatalog() {
     console.log('====================================================\n');
 
     const args = process.argv.slice(2);
-    if (args.includes('--drive')) {
+    // Por defecto conecta directamente con Google Drive (a menos que se pase el parámetro --local)
+    if (!args.includes('--local')) {
         await downloadFromGoogleDrive(GOOGLE_DRIVE_SHEET_ID);
     }
 
