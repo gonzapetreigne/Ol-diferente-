@@ -243,31 +243,31 @@ nav a:hover {
     aspect-ratio: 1 / 1;
     height: auto;
     position: relative;
-    background: rgba(255, 255, 255, 0.02);
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.25) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px;
+    padding: 10px;
     box-sizing: border-box;
     overflow: hidden;
 }
 
 .product-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     object-position: center;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border-radius: 12px;
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     display: block;
 }
 
 .product-card:hover .product-image {
     transform: scale(1.05);
-    box-shadow: 0 14px 30px rgba(212, 175, 55, 0.25);
-    border-color: rgba(212, 175, 55, 0.3);
+    filter: drop-shadow(0 10px 22px rgba(212, 175, 55, 0.3));
 }
 
 .product-info {
@@ -500,8 +500,8 @@ footer {
 /* Out of Stock & Preorder Badges */
 .out-of-stock-badge {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 15px;
+    right: 15px;
     background-color: #e74c3c;
     color: #ffffff;
     font-weight: 800;
@@ -516,8 +516,8 @@ footer {
 
 .preorder-badge {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 15px;
+    right: 15px;
     background-color: #f39c12; /* Distinct Gold/Orange Color */
     color: #000000;
     font-weight: 800;
@@ -533,8 +533,8 @@ footer {
 @media (max-width: 768px) {
     .out-of-stock-badge,
     .preorder-badge {
-        top: 14px;
-        right: 14px;
+        top: 10px;
+        right: 10px;
         font-size: 8px;
         padding: 4px 8px;
         border-radius: 4px;
