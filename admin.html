@@ -273,6 +273,210 @@
             background: #219653;
             transform: translateY(-2px);
         }
+    
+        /* --- Catalog & Inventory Dashboard Styles --- */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .catalog-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .catalog-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+        }
+        .catalog-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .catalog-card-header i {
+            color: var(--accent-color);
+            width: 24px;
+            height: 24px;
+        }
+        .catalog-card-header h3 {
+            font-size: 1.15rem;
+            margin: 0;
+            color: var(--text-primary);
+        }
+        .catalog-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .catalog-stats-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px 16px;
+            display: flex;
+            flex-direction: column;
+            min-width: 110px;
+        }
+        .stat-pill-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .stat-pill-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .stat-pill-value.gold { color: var(--accent-color); }
+        .stat-pill-value.green { color: #27ae60; }
+        .stat-pill-value.orange { color: #f39c12; }
+        .stat-pill-value.red { color: #eb5757; }
+
+        .btn-drive-link {
+            background: #27ae60;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .btn-drive-link:hover {
+            background: #219653;
+            transform: translateY(-2px);
+        }
+        .btn-sync-action {
+            background: var(--accent-color);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-sync-action:hover {
+            background: #e5c158;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .inventory-search-wrap {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .inventory-search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 12px 16px 12px 42px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+        .inventory-search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        .inventory-search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+        }
+
+        .inventory-table-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            text-align: left;
+        }
+        .inventory-table th {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 14px 18px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .inventory-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+        .inventory-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-status.instock {
+            background: rgba(39, 174, 96, 0.15);
+            color: #27ae60;
+            border: 1px solid rgba(39, 174, 96, 0.3);
+        }
+        .badge-status.preorder {
+            background: rgba(243, 156, 18, 0.15);
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+        .badge-status.outofstock {
+            background: rgba(235, 87, 87, 0.15);
+            color: #eb5757;
+            border: 1px solid rgba(235, 87, 87, 0.3);
+        }
+
     </style>
     <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -295,12 +499,24 @@
                 <i data-lucide="mail"></i>
                 <span>Mensajes de Contacto</span>
             </button>
+            <button id="tab-catalog" class="tab-btn" onclick="adminPanel.switchTab('catalog', this)">
+                <i data-lucide="database"></i>
+                <span>Catálogo y Precios</span>
+            </button>
         </div>
 
         <!-- Sección de Pedidos -->
         <div id="orders-section" class="admin-section active">
             <div id="orders-container">
                 <p style="text-align: center; color: var(--text-secondary);">Cargando pedidos...</p>
+            </div>
+        </div>
+
+
+        <!-- Sección de Catálogo y Precios -->
+        <div id="catalog-section" class="admin-section">
+            <div id="catalog-container">
+                <p style="text-align: center; color: var(--text-secondary);">Cargando catálogo...</p>
             </div>
         </div>
 
@@ -316,6 +532,6 @@
     <script src="js/supabase-config.js"></script>
     <script src="js/components.js?v=2"></script>
     <script src="js/cart.js?v=2"></script>
-    <script src="js/admin.js?v=2"></script>
+    <script src="js/admin.js?v=3"></script>
 </body>
 </html>

@@ -20,16 +20,25 @@ const XLSX = require('xlsx');
 
 const GOOGLE_DRIVE_SHEET_ID = '1kCtWIFHFelvT4d2mkFMvU22VP94ke61R';
 
-// Leer variables de entorno de Supabase
-const dotenv = fs.readFileSync('.env', 'utf8');
-const env = Object.fromEntries(
-    dotenv.split('\n')
-        .filter(l => l.includes('='))
-        .map(l => {
-            const idx = l.indexOf('=');
-            return [l.substring(0, idx).trim(), l.substring(idx + 1).trim()];
-        })
-);
+// Leer variables de entorno de Supabase (desde process.env o archivo .env si existe)
+let env = {
+    SUPABASE_URL: process.env.SUPABASE_URL || 'https://bhrxmevodepoxkdesqvq.supabase.co',
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnhtZXZvZGVwb3hrZGVzcXZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzMzg0ODgsImV4cCI6MjA5MzkxNDQ4OH0.A-mYCWnT0O-QXVj31WK8J6JrD2Z1fMpt7dgGkiCmTZM',
+    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+};
+
+if (fs.existsSync('.env')) {
+    const dotenv = fs.readFileSync('.env', 'utf8');
+    const parsed = Object.fromEntries(
+        dotenv.split('\n')
+            .filter(l => l.includes('='))
+            .map(l => {
+                const idx = l.indexOf('=');
+                return [l.substring(0, idx).trim(), l.substring(idx + 1).trim()];
+            })
+    );
+    env = { ...env, ...parsed };
+}
 
 // Formateador de moneda en pesos argentinos: 74000 -> "74.000"
 function formatPrice(num) {

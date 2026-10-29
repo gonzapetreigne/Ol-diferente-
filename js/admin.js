@@ -4,6 +4,8 @@ class AdminPanel {
         this.ordersContainer = document.getElementById('orders-container');
         this.messagesContainer = document.getElementById('messages-container');
         this.pageTitle = document.getElementById('admin-page-title');
+        this.catalogContainer = document.getElementById('catalog-container');
+        this.inventoryList = [];
         this.init();
     }
 
@@ -12,7 +14,8 @@ class AdminPanel {
             await this.checkAuth();
             await Promise.all([
                 this.loadOrders(),
-                this.loadMessages()
+                this.loadMessages(),
+                this.loadCatalog()
             ]);
         } catch (err) {
             console.error('Init error:', err);
@@ -35,7 +38,7 @@ class AdminPanel {
 
         // Actualizar título
         if (this.pageTitle) {
-            this.pageTitle.textContent = tabName === 'orders' ? 'Pedidos Recientes' : 'Mensajes de Contacto';
+            this.pageTitle.textContent = tabName === 'orders' ? 'Pedidos Recientes' : (tabName === 'messages' ? 'Mensajes de Contacto' : 'Catálogo y Precios');
         }
         
         if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -403,6 +406,165 @@ class AdminPanel {
             console.error('Error deleting message:', err);
             alert('Error al eliminar el mensaje.');
         }
+    }
+
+    async loadCatalog() {
+        if (!this.catalogContainer) return;
+        try {
+            const { data: inventory, error } = await window.supabase
+                .from('inventory')
+                .select('*')
+                .order('name', { ascending: true });
+
+            if (error) throw error;
+            this.inventoryList = inventory || [];
+            this.renderCatalogView();
+        } catch (err) {
+            console.error('Error loading inventory:', err);
+            this.catalogContainer.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #eb5757;">
+                    <i data-lucide="alert-circle" style="width: 40px; height: 40px; margin-bottom: 10px;"></i>
+                    <p>No se pudo cargar el inventario: ${err.message}</p>
+                </div>
+            `;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+    }
+
+    renderCatalogView() {
+        const total = this.inventoryList.length;
+        const inStock = this.inventoryList.filter(i => i.stock > 0).length;
+        const preorder = this.inventoryList.filter(i => i.stock === -1).length;
+        const outOfStock = this.inventoryList.filter(i => i.stock === 0).length;
+
+        this.catalogContainer.innerHTML = `
+            <!-- Fila de Tarjetas de Gestión -->
+            <div class="catalog-grid">
+                <div class="catalog-card">
+                    <div>
+                        <div class="catalog-card-header">
+                            <i data-lucide="file-spreadsheet"></i>
+                            <h3>Planilla en Google Drive</h3>
+                        </div>
+                        <p class="catalog-card-desc">
+                            Planilla maestra de precios y stock. Cualquier cambio que hagas en la planilla se sincronizará automáticamente con la web en vivo.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="https://docs.google.com/spreadsheets/d/1kCtWIFHFelvT4d2mkFMvU22VP94ke61R/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-drive-link">
+                            <i data-lucide="external-link"></i>
+                            <span>Abrir Planilla en Google Drive</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="catalog-card">
+                    <div>
+                        <div class="catalog-card-header">
+                            <i data-lucide="refresh-cw"></i>
+                            <h3>Sincronización en la Nube</h3>
+                        </div>
+                        <p class="catalog-card-desc">
+                            La web se sincroniza automáticamente cada 2 horas en la nube (GitHub Actions). Si acabas de editar precios y quieres forzar la actualización inmediata, puedes iniciarla con un clic.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="https://github.com/gonzapetreigne/Ol-diferente-/actions/workflows/sync-catalog.yml" target="_blank" rel="noopener noreferrer" class="btn-sync-action">
+                            <i data-lucide="play"></i>
+                            <span>Ejecutar Sincronización en la Nube</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila de Estadísticas -->
+            <div class="catalog-stats-row">
+                <div class="stat-pill">
+                    <span class="stat-pill-label">Total Perfumes</span>
+                    <span class="stat-pill-value gold">${total}</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill-label">En Stock Inmediato</span>
+                    <span class="stat-pill-value green">${inStock}</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill-label">Por Encargue</span>
+                    <span class="stat-pill-value orange">${preorder}</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill-label">Sin Stock</span>
+                    <span class="stat-pill-value red">${outOfStock}</span>
+                </div>
+            </div>
+
+            <!-- Buscador de Inventario -->
+            <div class="inventory-search-wrap">
+                <i data-lucide="search" class="inventory-search-icon"></i>
+                <input type="text" id="inventory-search" class="inventory-search-input" placeholder="Buscar perfume por nombre..." oninput="adminPanel.filterInventory(this.value)">
+            </div>
+
+            <!-- Tabla de Inventario en Vivo -->
+            <div class="inventory-table-container">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Perfume</th>
+                            <th>Estado / Disponibilidad</th>
+                            <th>Unidades</th>
+                            <th style="text-align: right;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-tbody">
+                        ${this.generateInventoryRows(this.inventoryList)}
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    generateInventoryRows(list) {
+        if (!list || list.length === 0) {
+            return `<tr><td colspan="4" style="text-align: center; color: var(--text-secondary); padding: 30px;">No se encontraron perfumes.</td></tr>`;
+        }
+        return list.map(item => {
+            let statusBadge = '';
+            let unitsText = '';
+            if (item.stock > 0) {
+                statusBadge = `<span class="badge-status instock"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> En Stock</span>`;
+                unitsText = `${item.stock} u.`;
+            } else if (item.stock === -1) {
+                statusBadge = `<span class="badge-status preorder"><i data-lucide="clock" style="width: 14px; height: 14px;"></i> Por Encargue</span>`;
+                unitsText = 'Bajo pedido';
+            } else {
+                statusBadge = `<span class="badge-status outofstock"><i data-lucide="x-circle" style="width: 14px; height: 14px;"></i> Agotado</span>`;
+                unitsText = '0 u.';
+            }
+
+            return `
+                <tr>
+                    <td style="font-weight: 600;">${item.name}</td>
+                    <td>${statusBadge}</td>
+                    <td style="color: var(--text-secondary);">${unitsText}</td>
+                    <td style="text-align: right;">
+                        <a href="tienda.html" target="_blank" style="color: var(--accent-color); text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                            <span>Ver en tienda</span>
+                            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                        </a>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    filterInventory(query) {
+        const tbody = document.getElementById('inventory-tbody');
+        if (!tbody) return;
+        const q = (query || '').toLowerCase().trim();
+        const filtered = this.inventoryList.filter(item => item.name.toLowerCase().includes(q));
+        tbody.innerHTML = this.generateInventoryRows(filtered);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 }
 
