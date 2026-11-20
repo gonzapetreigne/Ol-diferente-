@@ -25,18 +25,22 @@ class WebComponents {
     }
 
     loadHolidayModule() {
+        if (window.OleChristmas && typeof window.OleChristmas.refresh === 'function') {
+            window.OleChristmas.refresh();
+        }
+
         // Inyectar CSS de Navidad si aún no está presente
         if (!document.querySelector('link[href*="christmas.css"]')) {
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = `${this.basePath}css/christmas.css?v=1`;
+            link.href = `${this.basePath}css/christmas.css?v=3`;
             document.head.appendChild(link);
         }
 
         // Inyectar JS de Navidad si aún no está presente
         if (!window.OleChristmas && !document.querySelector('script[src*="christmas.js"]')) {
             const script = document.createElement('script');
-            script.src = `${this.basePath}js/christmas.js?v=1`;
+            script.src = `${this.basePath}js/christmas.js?v=3`;
             script.onload = () => {
                 if (typeof this.latestChristmasStock === 'number' && window.OleChristmas) {
                     window.OleChristmas.syncFromSupabase(this.latestChristmasStock);

@@ -590,9 +590,9 @@ class AdminPanel {
         const isLive = this.christmasLiveMode > 0;
         const localPreview = parseInt(localStorage.getItem('ole_xmas_preview_mode') || '0', 10) || 0;
         const modeNames = {
-            1: "Modo 1: L'Atelier de Noël (Experiencia Completa Awwwards)",
-            2: "Modo 2: Golden Whisper (Minimalista & Sutil)",
-            3: "Modo 3: Gala de Nochebuena (Imperial & Estelar)"
+            1: "Estilo 1: Navidad Clásica",
+            2: "Estilo 2: Minimalista",
+            3: "Estilo 3: Nochebuena"
         };
 
         const statusBadge = isLive
@@ -603,10 +603,10 @@ class AdminPanel {
             <div class="xmas-admin-hero">
                 ${statusBadge}
                 <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #FFEFA6; margin: 0 0 10px 0;">
-                    L'Atelier de Noël — Control de Lanzamiento en Vivo
+                    Edición Navidad — Control de Lanzamiento en Vivo
                 </h2>
                 <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; max-width: 780px; margin: 0 0 24px 0;">
-                    Activá o desactivá la decoración navideña de alta perfumería en tiempo real para todos los dispositivos (Escritorio y Móviles). Podés previsualizar cada estilo únicamente en tu navegador antes de dar la orden de lanzamiento público.
+                    Activá o desactivá la decoración navideña en tiempo real para todos los dispositivos (Escritorio y Móviles). Podés previsualizar cada estilo solo en tu navegador antes de lanzarlo al público.
                 </p>
 
                 <!-- Selector de 3 Estilos / Intensidades -->
@@ -614,11 +614,11 @@ class AdminPanel {
                     <div class="xmas-mode-card ${this.selectedChristmasPreset === 1 ? 'selected' : ''}" onclick="adminPanel.selectChristmasPreset(1)">
                         <div>
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                                <span style="font-size:0.75rem; font-weight:700; color:var(--accent-color); letter-spacing:1.5px; text-transform:uppercase;">★ Recomendado Awwwards</span>
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--accent-color); letter-spacing:1.5px; text-transform:uppercase;">★ Recomendado</span>
                                 ${this.selectedChristmasPreset === 1 ? '<i data-lucide="check-circle-2" style="color:#D4AF37; width:18px; height:18px;"></i>' : ''}
                             </div>
-                            <h4>1. L'Atelier de Noël (Completo)</h4>
-                            <p>Orfebrería colgante en oro y terciopelo carmesí, polvo de oro bokeh + nieve cristalina a 60fps, medallón editorial en Hero, Boutique de Regalos en Tienda y esquineros dorados en tarjetas.</p>
+                            <h4>1. Navidad Clásica (Completo)</h4>
+                            <p>Guirnalda de pino con moños rojos y bolas de árbol, gorro de Papá Noel en el logo, trineo de Santa cruzando la pantalla cada ~40 seg, nieve con polvo de oro, banner de regalos en Tienda y ramitas de acebo en los productos.</p>
                         </div>
                         <span style="font-size:0.8rem; color:#FFEFA6; font-weight:600;">Seleccionar Estilo 1</span>
                     </div>
@@ -626,11 +626,11 @@ class AdminPanel {
                     <div class="xmas-mode-card ${this.selectedChristmasPreset === 2 ? 'selected' : ''}" onclick="adminPanel.selectChristmasPreset(2)">
                         <div>
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); letter-spacing:1.5px; text-transform:uppercase;">Sutil & Editorial</span>
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); letter-spacing:1.5px; text-transform:uppercase;">Sutil</span>
                                 ${this.selectedChristmasPreset === 2 ? '<i data-lucide="check-circle-2" style="color:#D4AF37; width:18px; height:18px;"></i>' : ''}
                             </div>
-                            <h4>2. Golden Whisper (Minimalista)</h4>
-                            <p>Atmósfera delicada con bruma suave de partículas de oro, cinta festiva superior y emblema estelar en el logo, sin ornamentos colgantes laterales.</p>
+                            <h4>2. Navidad Dorada (Minimalista)</h4>
+                            <p>Sin pino verde: guirnalda de hilos de oro con estrellas colgantes, gorro de Papá Noel en el logo, lluvia de estrellas doradas, cinta Champagne Gold y trineo de Santa.</p>
                         </div>
                         <span style="font-size:0.8rem; color:#FFEFA6; font-weight:600;">Seleccionar Estilo 2</span>
                     </div>
@@ -641,8 +641,8 @@ class AdminPanel {
                                 <span style="font-size:0.75rem; font-weight:700; color:#eb5757; letter-spacing:1.5px; text-transform:uppercase;">24 & 25 de Diciembre</span>
                                 ${this.selectedChristmasPreset === 3 ? '<i data-lucide="check-circle-2" style="color:#D4AF37; width:18px; height:18px;"></i>' : ''}
                             </div>
-                            <h4>3. Gala de Nochebuena</h4>
-                            <p>Orfebrería imperial completa con lluvia enriquecida de estrellas diamante de 4 puntas y saludo especial "¡Feliz Navidad te desea Olé Diferente!" en portada.</p>
+                            <h4>3. Nochebuena Mágica (Máximo)</h4>
+                            <p>Todo el Estilo 1 + luces multicolores titilando en la guirnalda, Árbol de Navidad iluminado con regalos en la esquina, copos de nieve cristalinos (❄) y trineo de Santa más seguido.</p>
                         </div>
                         <span style="font-size:0.8rem; color:#FFEFA6; font-weight:600;">Seleccionar Estilo 3</span>
                     </div>
