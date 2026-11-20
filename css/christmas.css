@@ -1,0 +1,648 @@
+/**
+ * ============================================================================
+ * OLÉ DIFERENTE — L'ATELIER DE NOËL (Haute Parfumerie Holiday Edition)
+ * Diseño de lujo digno de Awwwards para Escritorio y Móviles
+ * ============================================================================
+ */
+
+:root {
+    --xmas-gold-light: #FFEFA6;
+    --xmas-gold: #D4AF37;
+    --xmas-gold-deep: #997510;
+    --xmas-crimson: #6B0F1A;
+    --xmas-crimson-bright: #9E1B2B;
+    --xmas-crimson-dark: #2B0509;
+    --xmas-pine: #112A1F;
+    --xmas-pearl: #F9F6EE;
+    --xmas-glass-bg: rgba(14, 18, 32, 0.72);
+    --xmas-glass-border: rgba(212, 175, 55, 0.35);
+}
+
+[data-theme="light"] {
+    --xmas-glass-bg: rgba(255, 250, 245, 0.85);
+    --xmas-glass-border: rgba(180, 138, 30, 0.45);
+}
+
+/* ============================================================================
+   1. CANVAS DE NIEVE Y POLVO DE ORO BOKEH (60 FPS GPU)
+   ============================================================================ */
+#ole-xmas-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none !important;
+    z-index: 9990;
+    opacity: 0;
+    transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.ole-xmas-active #ole-xmas-canvas {
+    opacity: 1;
+}
+
+body.ole-xmas-snow-paused #ole-xmas-canvas {
+    opacity: 0 !important;
+}
+
+/* ============================================================================
+   2. CORONA ARQUITECTÓNICA Y ORFEBRERÍA COLGANTE (HEADER & VIEWPORT)
+   ============================================================================ */
+.ole-xmas-crown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 220px;
+    pointer-events: none;
+    z-index: 1005;
+    overflow: visible;
+    opacity: 0;
+    transform: translateY(-25px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.ole-xmas-active .ole-xmas-crown {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* En modo minimalista (Modo 2) ocultamos los colgantes laterales grandes */
+body.ole-xmas-mode-2 .ole-xmas-pendants-left,
+body.ole-xmas-mode-2 .ole-xmas-pendants-right {
+    display: none !important;
+}
+
+/* Línea superior de filigrana dorada */
+.ole-xmas-top-filigree {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(212, 175, 55, 0.3) 15%,
+        #FFEFA6 35%,
+        #D4AF37 50%,
+        #FFEFA6 65%,
+        rgba(212, 175, 55, 0.3) 85%,
+        transparent 100%
+    );
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.65), 0 0 35px rgba(212, 175, 55, 0.25);
+}
+
+/* Contenedores de ornamentos colgantes */
+.ole-xmas-pendants-left,
+.ole-xmas-pendants-right {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+    pointer-events: none;
+}
+
+.ole-xmas-pendants-left {
+    left: 22px;
+}
+
+.ole-xmas-pendants-right {
+    right: 22px;
+}
+
+/* En la home con marquee banner, desplazamos suavemente debajo del marquee */
+body.home-page .ole-xmas-pendants-left,
+body.home-page .ole-xmas-pendants-right {
+    top: 38px;
+}
+
+.ole-xmas-pendant {
+    transform-origin: top center;
+    will-change: transform;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.45));
+}
+
+.ole-xmas-pendant.pendant-1 {
+    animation: oleXmasSway1 5.8s ease-in-out infinite alternate;
+}
+
+.ole-xmas-pendant.pendant-2 {
+    animation: oleXmasSway2 7.2s ease-in-out infinite alternate;
+}
+
+.ole-xmas-pendant.pendant-3 {
+    animation: oleXmasSway1 6.4s ease-in-out -2s infinite alternate;
+}
+
+.ole-xmas-pendant.pendant-4 {
+    animation: oleXmasSway2 8.1s ease-in-out -1.5s infinite alternate;
+}
+
+@keyframes oleXmasSway1 {
+    0% { transform: rotate(-2.4deg); }
+    100% { transform: rotate(2.4deg); }
+}
+
+@keyframes oleXmasSway2 {
+    0% { transform: rotate(1.8deg); }
+    100% { transform: rotate(-2.1deg); }
+}
+
+/* Destello de estrellas en los ornamentos */
+.ole-xmas-star-pulse {
+    animation: oleStarPulse 3.2s ease-in-out infinite alternate;
+    transform-origin: center;
+}
+
+@keyframes oleStarPulse {
+    0% { opacity: 0.55; transform: scale(0.92); }
+    100% { opacity: 1; transform: scale(1.08); }
+}
+
+/* ============================================================================
+   3. MARQUEE FESTIVO & EMBLEMA EN EL LOGO DEL HEADER
+   ============================================================================ */
+body.ole-xmas-active .marquee-banner {
+    background: linear-gradient(90deg,
+        #1F0408 0%,
+        #580D18 25%,
+        #7A1321 50%,
+        #580D18 75%,
+        #1F0408 100%
+    ) !important;
+    color: var(--xmas-gold-light) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.55) !important;
+    box-shadow: 0 4px 25px rgba(107, 15, 26, 0.55), inset 0 0 12px rgba(212, 175, 55, 0.2);
+}
+
+body.ole-xmas-active .marquee-content {
+    color: #FFEFA6 !important;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.45);
+    letter-spacing: 2.5px !important;
+}
+
+/* Corona sutil en el logo principal */
+header .logo {
+    position: relative;
+}
+
+.ole-xmas-logo-badge {
+    position: absolute;
+    top: -4px;
+    right: -18px;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+    z-index: 10;
+}
+
+body.ole-xmas-active .ole-xmas-logo-badge {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ============================================================================
+   4. MEDALLÓN EDITORIAL EN EL HERO (INDEX.HTML - ESCRITORIO Y MÓVIL)
+   ============================================================================ */
+.ole-xmas-hero-crest {
+    position: absolute;
+    bottom: 185px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+    text-decoration: none;
+    animation: oleCrestFloat 5s ease-in-out infinite alternate;
+}
+
+@keyframes oleCrestFloat {
+    0% { transform: translateX(-50%) translateY(0px); }
+    100% { transform: translateX(-50%) translateY(-6px); }
+}
+
+.ole-xmas-hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 24px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(18, 10, 14, 0.78) 0%, rgba(45, 10, 18, 0.82) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45),
+                0 0 20px rgba(212, 175, 55, 0.2),
+                inset 0 1px 0 rgba(255, 239, 166, 0.25);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.ole-xmas-hero-pill:hover {
+    transform: scale(1.04);
+    border-color: #FFEFA6;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6),
+                0 0 28px rgba(212, 175, 55, 0.45);
+}
+
+.ole-xmas-hero-pill-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #FFEFA6 0%, #D4AF37 50%, #FFEFA6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+}
+
+.ole-xmas-hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(245, 245, 220, 0.9);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+
+/* ============================================================================
+   5. BANNER BOUTIQUE DE REGALOS EN TIENDA.HTML & FILIGRANA EN PRODUCTOS
+   ============================================================================ */
+.ole-xmas-boutique-banner {
+    position: relative;
+    margin-bottom: 28px;
+    padding: 24px 32px;
+    border-radius: 18px;
+    background: linear-gradient(135deg,
+        rgba(35, 7, 12, 0.88) 0%,
+        rgba(14, 18, 34, 0.92) 55%,
+        rgba(28, 22, 10, 0.88) 100%
+    );
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), inset 0 0 40px rgba(212, 175, 55, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+}
+
+[data-theme="light"] .ole-xmas-boutique-banner {
+    background: linear-gradient(135deg,
+        rgba(75, 12, 22, 0.94) 0%,
+        rgba(32, 14, 24, 0.95) 60%,
+        rgba(55, 38, 12, 0.94) 100%
+    );
+    color: #F5F5DC;
+}
+
+.ole-xmas-boutique-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #FFEFA6, #D4AF37, transparent);
+    opacity: 0.7;
+}
+
+.ole-xmas-boutique-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 1;
+}
+
+.ole-xmas-boutique-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(107, 15, 26, 0.35) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.ole-xmas-boutique-copy h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: #FFEFA6;
+    margin: 0 0 4px 0;
+    letter-spacing: 0.5px;
+}
+
+.ole-xmas-boutique-copy p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: rgba(245, 245, 220, 0.82);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.ole-xmas-boutique-tag {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #D4AF37;
+    margin-bottom: 4px;
+}
+
+.ole-xmas-boutique-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #FFEFA6 0%, #D4AF37 50%, #B38728 100%);
+    color: #121212 !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.ole-xmas-boutique-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.55);
+}
+
+/* Esquina de Filigrana Dorada y Sello de Regalo en Tarjetas de Producto */
+body.ole-xmas-active .product-card {
+    position: relative;
+    border-color: rgba(212, 175, 55, 0.22);
+}
+
+body.ole-xmas-active .product-card:hover {
+    border-color: rgba(212, 175, 55, 0.75);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), 0 0 25px rgba(212, 175, 55, 0.18);
+}
+
+.ole-xmas-card-corner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0.85;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.product-card:hover .ole-xmas-card-corner {
+    transform: scale(1.12) rotate(8deg);
+    opacity: 1;
+}
+
+/* Cinta en Sección Quiz Olfativo */
+.ole-xmas-quiz-ribbon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 18px;
+    border-radius: 999px;
+    background: rgba(107, 15, 26, 0.35);
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    color: #FFEFA6;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.15);
+}
+
+[data-theme="light"] .ole-xmas-quiz-ribbon {
+    background: rgba(107, 15, 26, 0.9);
+    color: #FFEFA6;
+}
+
+/* ============================================================================
+   6. CONTROLADOR FLOTANTE GLASSMORPHISM (ESQUINA INFERIOR IZQUIERDA)
+   ============================================================================ */
+.ole-xmas-Dock {
+    position: fixed;
+    bottom: 22px;
+    left: 22px;
+    z-index: 9995;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Inter', sans-serif;
+}
+
+.ole-xmas-pill-ctrl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 8px 10px;
+    border-radius: 999px;
+    background: var(--xmas-glass-bg);
+    border: 1px solid var(--xmas-glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 15px rgba(212, 175, 55, 0.15);
+    color: var(--text-primary);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ole-xmas-pill-ctrl:hover {
+    border-color: var(--xmas-gold);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 22px rgba(212, 175, 55, 0.28);
+}
+
+.ole-xmas-ctrl-toggle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(107, 15, 26, 0.4) 100%);
+    color: #FFEFA6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.ole-xmas-ctrl-toggle:hover {
+    transform: rotate(15deg) scale(1.08);
+}
+
+.ole-xmas-ctrl-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.ole-xmas-ctrl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--xmas-gold);
+    letter-spacing: 0.5px;
+}
+
+.ole-xmas-ctrl-status {
+    font-size: 10px;
+    color: var(--text-primary);
+    opacity: 0.75;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.ole-xmas-ctrl-status:hover {
+    opacity: 1;
+    color: var(--xmas-gold);
+}
+
+/* Badge de "MODO VISTA PREVIA" cuando aún no está lanzado en vivo */
+.ole-xmas-preview-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.95), rgba(211, 84, 0, 0.95));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 20px rgba(243, 156, 18, 0.35);
+    text-decoration: none;
+    transition: transform 0.25s ease;
+}
+
+.ole-xmas-preview-banner:hover {
+    transform: translateY(-2px);
+}
+
+/* ============================================================================
+   7. ADAPTACIÓN RESPONSIVE PERFECTA PARA MÓVILES Y TABLETS
+   ============================================================================ */
+@media (max-width: 1024px) {
+    .ole-xmas-pendants-left {
+        left: 8px;
+        gap: 10px;
+        transform: scale(0.76);
+        transform-origin: top left;
+    }
+
+    .ole-xmas-pendants-right {
+        right: 8px;
+        gap: 10px;
+        transform: scale(0.76);
+        transform-origin: top right;
+    }
+
+    /* Ocultar el segundo colgante de cada lado en pantallas medianas/móviles para máxima limpieza visual */
+    .ole-xmas-pendant.pendant-2,
+    .ole-xmas-pendant.pendant-4 {
+        display: none;
+    }
+
+    .ole-xmas-hero-crest {
+        bottom: 92px;
+        width: 92%;
+    }
+
+    .ole-xmas-boutique-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .ole-xmas-boutique-cta {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .ole-xmas-pendants-left {
+        left: 4px;
+        transform: scale(0.62);
+        transform-origin: top left;
+        opacity: 0.9;
+    }
+
+    /* En móvil dejamos el lado derecho despejado para el botón hamburguesa y carrito */
+    .ole-xmas-pendants-right {
+        display: none;
+    }
+
+    .ole-xmas-logo-badge {
+        top: -2px;
+        right: -12px;
+        transform: scale(0.8) !important;
+    }
+
+    .ole-xmas-hero-crest {
+        bottom: 78px;
+    }
+
+    .ole-xmas-hero-pill {
+        padding: 8px 16px;
+        gap: 8px;
+    }
+
+    .ole-xmas-hero-pill-text {
+        font-size: 9.5px;
+        letter-spacing: 2px;
+    }
+
+    .ole-xmas-hero-sub {
+        font-size: 11.5px;
+    }
+
+    .ole-xmas-Dock {
+        bottom: 14px;
+        left: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .ole-xmas-pill-ctrl {
+        padding: 6px 12px 6px 8px;
+    }
+
+    .ole-xmas-ctrl-title {
+        font-size: 11px;
+    }
+
+    .ole-xmas-ctrl-status {
+        font-size: 9.5px;
+    }
+}

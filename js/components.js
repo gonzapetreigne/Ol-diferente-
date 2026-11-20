@@ -19,8 +19,31 @@ class WebComponents {
         this.setupAuthListener();
         this.updateUserAuthStatus();
         this.initScrollEffects();
+        this.loadHolidayModule();
         // this.setupCustomCursor(); // Desactivado para PC de bajos recursos para evitar lag y repintados del cursor
         this.checkInventory();
+    }
+
+    loadHolidayModule() {
+        // Inyectar CSS de Navidad si aún no está presente
+        if (!document.querySelector('link[href*="christmas.css"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = `${this.basePath}css/christmas.css?v=1`;
+            document.head.appendChild(link);
+        }
+
+        // Inyectar JS de Navidad si aún no está presente
+        if (!window.OleChristmas && !document.querySelector('script[src*="christmas.js"]')) {
+            const script = document.createElement('script');
+            script.src = `${this.basePath}js/christmas.js?v=1`;
+            script.onload = () => {
+                if (typeof this.latestChristmasStock === 'number' && window.OleChristmas) {
+                    window.OleChristmas.syncFromSupabase(this.latestChristmasStock);
+                }
+            };
+            document.head.appendChild(script);
+        }
     }
 
     async checkInventory() {
@@ -32,6 +55,13 @@ class WebComponents {
                 .select('name, stock');
                 
             if (error) throw error;
+
+            // Sincronizar estado en vivo de Decoración Navideña (__CONFIG_NAVIDAD__)
+            const xmasConfig = inventory.find(p => p.name === '__CONFIG_NAVIDAD__');
+            this.latestChristmasStock = xmasConfig ? xmasConfig.stock : 0;
+            if (window.OleChristmas) {
+                window.OleChristmas.syncFromSupabase(this.latestChristmasStock);
+            }
             
             // Apply out of stock to product cards in tienda.html
             const productCards = document.querySelectorAll('.product-card');

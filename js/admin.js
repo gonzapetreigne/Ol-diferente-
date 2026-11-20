@@ -5,7 +5,10 @@ class AdminPanel {
         this.messagesContainer = document.getElementById('messages-container');
         this.pageTitle = document.getElementById('admin-page-title');
         this.catalogContainer = document.getElementById('catalog-container');
+        this.christmasContainer = document.getElementById('christmas-container');
         this.inventoryList = [];
+        this.christmasLiveMode = 0;
+        this.selectedChristmasPreset = 1;
         this.init();
     }
 
@@ -38,7 +41,13 @@ class AdminPanel {
 
         // Actualizar título
         if (this.pageTitle) {
-            this.pageTitle.textContent = tabName === 'orders' ? 'Pedidos Recientes' : (tabName === 'messages' ? 'Mensajes de Contacto' : 'Catálogo y Precios');
+            const titles = {
+                orders: 'Pedidos Recientes',
+                messages: 'Mensajes de Contacto',
+                catalog: 'Catálogo y Precios',
+                christmas: 'L\'Atelier de Noël — Edición Navidad'
+            };
+            this.pageTitle.textContent = titles[tabName] || 'Panel de Administración';
         }
         
         if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -417,8 +426,16 @@ class AdminPanel {
                 .order('name', { ascending: true });
 
             if (error) throw error;
-            this.inventoryList = inventory || [];
+            const rawList = inventory || [];
+            const xmasRow = rawList.find(i => i.name === '__CONFIG_NAVIDAD__');
+            this.christmasLiveMode = xmasRow ? Math.max(0, parseInt(xmasRow.stock, 10) || 0) : 0;
+            if (this.christmasLiveMode > 0) {
+                this.selectedChristmasPreset = this.christmasLiveMode;
+            }
+
+            this.inventoryList = rawList.filter(i => !String(i.name).startsWith('__CONFIG_'));
             this.renderCatalogView();
+            this.renderChristmasView();
         } catch (err) {
             console.error('Error loading inventory:', err);
             this.catalogContainer.innerHTML = `
@@ -565,6 +582,190 @@ class AdminPanel {
         const filtered = this.inventoryList.filter(item => item.name.toLowerCase().includes(q));
         tbody.innerHTML = this.generateInventoryRows(filtered);
         if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    renderChristmasView() {
+        if (!this.christmasContainer) return;
+
+        const isLive = this.christmasLiveMode > 0;
+        const localPreview = parseInt(localStorage.getItem('ole_xmas_preview_mode') || '0', 10) || 0;
+        const modeNames = {
+            1: "Modo 1: L'Atelier de Noël (Experiencia Completa Awwwards)",
+            2: "Modo 2: Golden Whisper (Minimalista & Sutil)",
+            3: "Modo 3: Gala de Nochebuena (Imperial & Estelar)"
+        };
+
+        const statusBadge = isLive
+            ? `<div class="xmas-status-pill live"><i data-lucide="radio" style="width:16px;height:16px;"></i> ACTIVO EN VIVO PARA TODOS LOS VISITANTES (${modeNames[this.christmasLiveMode] || 'Modo 1'})</div>`
+            : `<div class="xmas-status-pill standby"><i data-lucide="clock" style="width:16px;height:16px;"></i> EN ESPERA (OCULTO AL PÚBLICO — LISTO PARA LANZAR)</div>`;
+
+        this.christmasContainer.innerHTML = `
+            <div class="xmas-admin-hero">
+                ${statusBadge}
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #FFEFA6; margin: 0 0 10px 0;">
+                    L'Atelier de Noël — Control de Lanzamiento en Vivo
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; max-width: 780px; margin: 0 0 24px 0;">
+                    Activá o desactivá la decoración navideña de alta perfumería en tiempo real para todos los dispositivos (Escritorio y Móviles). Podés previsualizar cada estilo únicamente en tu navegador antes de dar la orden de lanzamiento público.
+                </p>
+
+                <!-- Selector de 3 Estilos / Intensidades -->
+                <div class="xmas-mode-cards">
+                    <div class="xmas-mode-card ${this.selectedChristmasPreset === 1 ? 'selected' : ''}" onclick="adminPanel.selectChristmasPreset(1)">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--accent-color); letter-spacing:1.5px; text-transform:uppercase;">★ Recomendado Awwwards</span>
+                                ${this.selectedChristmasPreset === 1 ? '<i data-lucide="check-circle-2" style="color:#D4AF37; width:18px; height:18px;"></i>' : ''}
+                            </div>
+                            <h4>1. L'Atelier de Noël (Completo)</h4>
+                            <p>Orfebrería colgante en oro y terciopelo carmesí, polvo de oro bokeh + nieve cristalina a 60fps, medallón editorial en Hero, Boutique de Regalos en Tienda y esquineros dorados en tarjetas.</p>
+                        </div>
+                        <span style="font-size:0.8rem; color:#FFEFA6; font-weight:600;">Seleccionar Estilo 1</span>
+                    </div>
+
+                    <div class="xmas-mode-card ${this.selectedChristmasPreset === 2 ? 'selected' : ''}" onclick="adminPanel.selectChristmasPreset(2)">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); letter-spacing:1.5px; text-transform:uppercase;">Sutil & Editorial</span>
+                                ${this.selectedChristmasPreset === 2 ? '<i data-lucide="check-circle-2" style="color:#D4AF37; width:18px; height:18px;"></i>' : ''}
+                            </div>
+                            <h4>2. Golden Whisper (Minimalista)</h4>
+                            <p>Atmósfera delicada con bruma suave de partículas de oro, cinta festiva superior y emblema estelar en el logo, sin ornamentos colgantes laterales.</p>
+                        </div>
+                        <span style="font-size:0.8rem; color:#FFEFA6; font-weight:600;">Seleccionar Estilo 2</span>
+                    </div>
+
+                    <div class="xmas-mode-card ${this.selectedChristmasPreset === 3 ? 'selected' : ''}" onclick="adminPanel.selectChristmasPreset(3)">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-size:0.75rem; font-weight:700; color:#eb5757; letter-spacing:1.5px; text-transform:uppercase;">24 & 25 de Diciembre</span>
+                                ${this.selectedChristmasPreset === 3 ? '<i data-lucide="check-circle-2" style="color:#D4AF37; width:18px; height:18px;"></i>' : ''}
+                            </div>
+                            <h4>3. Gala de Nochebuena</h4>
+                            <p>Orfebrería imperial completa con lluvia enriquecida de estrellas diamante de 4 puntas y saludo especial "¡Feliz Navidad te desea Olé Diferente!" en portada.</p>
+                        </div>
+                        <span style="font-size:0.8rem; color:#FFEFA6; font-weight:600;">Seleccionar Estilo 3</span>
+                    </div>
+                </div>
+
+                <!-- Botones de Lanzamiento en Vivo -->
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <button class="btn-launch-live" onclick="adminPanel.setChristmasLiveMode(${this.selectedChristmasPreset})">
+                        <i data-lucide="rocket"></i>
+                        <span>${isLive ? `ACTUALIZAR EN VIVO AL ESTILO ${this.selectedChristmasPreset}` : `LANZAR DECORACIÓN EN VIVO (ESTILO ${this.selectedChristmasPreset})`}</span>
+                    </button>
+
+                    ${isLive ? `
+                        <button class="btn-stop-live" onclick="adminPanel.setChristmasLiveMode(0)">
+                            <i data-lucide="power-off"></i>
+                            <span>Desactivar Decoración en Vivo (Volver a Web Normal)</span>
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+
+            <!-- Tarjeta de Vista Previa Privada (Sin afectar al público) -->
+            <div class="catalog-card">
+                <div class="catalog-card-header">
+                    <i data-lucide="eye"></i>
+                    <h3>Laboratorio de Vista Previa Privada (Solo en tu dispositivo)</h3>
+                </div>
+                <p class="catalog-card-desc">
+                    ¿Querés inspeccionar cómo luce la decoración en Inicio, Tienda o en tu celular antes de lanzarla al público? Activá la Vista Previa Local o usá los enlaces directos de prueba:
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                    <button class="btn-preview-local" onclick="adminPanel.toggleLocalPreview(${this.selectedChristmasPreset})">
+                        <i data-lucide="${localPreview > 0 ? 'eye-off' : 'sparkles'}"></i>
+                        <span>${localPreview > 0 ? 'Salir de Vista Previa Local' : `Probar Estilo ${this.selectedChristmasPreset} Aquí Mismo`}</span>
+                    </button>
+                    <a href="index.html?navidad=${this.selectedChristmasPreset}" target="_blank" class="btn-preview-local">
+                        <i data-lucide="external-link"></i>
+                        <span>Abrir Portada (Inicio) con Navidad</span>
+                    </a>
+                    <a href="tienda.html?navidad=${this.selectedChristmasPreset}" target="_blank" class="btn-preview-local">
+                        <i data-lucide="shopping-bag"></i>
+                        <span>Abrir Tienda con Navidad</span>
+                    </a>
+                </div>
+            </div>
+        `;
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    selectChristmasPreset(preset) {
+        this.selectedChristmasPreset = preset;
+        this.renderChristmasView();
+        // Si tiene activa la vista previa local, actualizarla al instante para que vea el cambio de estilo en vivo
+        const localPreview = parseInt(localStorage.getItem('ole_xmas_preview_mode') || '0', 10) || 0;
+        if (localPreview > 0 && this.christmasLiveMode === 0) {
+            localStorage.setItem('ole_xmas_preview_mode', String(preset));
+            if (window.OleChristmas) window.OleChristmas.applyMode(preset, true);
+        }
+    }
+
+    toggleLocalPreview(preset) {
+        const current = parseInt(localStorage.getItem('ole_xmas_preview_mode') || '0', 10) || 0;
+        if (current > 0) {
+            localStorage.removeItem('ole_xmas_preview_mode');
+            if (window.OleChristmas) window.OleChristmas.syncFromSupabase(this.christmasLiveMode);
+        } else {
+            const modeToPreview = preset || this.selectedChristmasPreset || 1;
+            localStorage.setItem('ole_xmas_preview_mode', String(modeToPreview));
+            if (window.OleChristmas) window.OleChristmas.applyMode(modeToPreview, this.christmasLiveMode === 0);
+        }
+        this.renderChristmasView();
+    }
+
+    async setChristmasLiveMode(mode) {
+        const confirmMsg = mode > 0
+            ? `¿Confirmás LANZAR EN VIVO la decoración navideña (Estilo ${mode}) para todos los visitantes en Escritorio y Móviles?`
+            : `¿Confirmás DESACTIVAR la decoración navideña en vivo y volver al diseño habitual?`;
+
+        if (!confirm(confirmMsg)) return;
+
+        try {
+            // Verificar si ya existe la fila __CONFIG_NAVIDAD__
+            const { data: existing } = await window.supabase
+                .from('inventory')
+                .select('id')
+                .eq('name', '__CONFIG_NAVIDAD__')
+                .maybeSingle();
+
+            let error = null;
+            if (existing) {
+                const res = await window.supabase
+                    .from('inventory')
+                    .update({ stock: mode })
+                    .eq('name', '__CONFIG_NAVIDAD__');
+                error = res.error;
+            } else {
+                const res = await window.supabase
+                    .from('inventory')
+                    .insert([{ name: '__CONFIG_NAVIDAD__', stock: mode }]);
+                error = res.error;
+            }
+
+            if (error) throw error;
+
+            this.christmasLiveMode = mode;
+            if (mode > 0) {
+                this.selectedChristmasPreset = mode;
+                localStorage.removeItem('ole_xmas_preview_mode');
+            }
+
+            if (window.OleChristmas) {
+                window.OleChristmas.syncFromSupabase(mode);
+            }
+
+            this.renderChristmasView();
+            alert(mode > 0
+                ? '🎄 ¡Decoración Navideña LANZADA EN VIVO con éxito para todos los usuarios!'
+                : '✅ Decoración Navideña desactivada en vivo.');
+        } catch (err) {
+            console.error('Error actualizando modo navidad en Supabase:', err);
+            alert('Error al guardar el estado en vivo: ' + (err.message || err));
+        }
     }
 }
 

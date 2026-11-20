@@ -477,6 +477,142 @@
             border: 1px solid rgba(235, 87, 87, 0.3);
         }
 
+        /* --- Christmas Live Control Center Styles --- */
+        .xmas-admin-hero {
+            background: linear-gradient(135deg, rgba(45, 8, 16, 0.75) 0%, rgba(15, 20, 38, 0.85) 60%, rgba(35, 25, 10, 0.75) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+        .xmas-admin-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFEFA6, #D4AF37, #FFEFA6, transparent);
+        }
+        .xmas-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .xmas-status-pill.live {
+            background: rgba(39, 174, 96, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.45);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.2);
+        }
+        .xmas-status-pill.standby {
+            background: rgba(243, 156, 18, 0.15);
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.35);
+        }
+        .xmas-mode-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin: 24px 0;
+        }
+        .xmas-mode-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 22px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .xmas-mode-card:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+            transform: translateY(-3px);
+        }
+        .xmas-mode-card.selected {
+            background: rgba(212, 175, 55, 0.09);
+            border-color: #D4AF37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+        }
+        .xmas-mode-card h4 {
+            color: #FFEFA6;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            margin: 0 0 8px 0;
+        }
+        .xmas-mode-card p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0 0 16px 0;
+        }
+        .btn-launch-live {
+            background: linear-gradient(135deg, #FFEFA6 0%, #D4AF37 50%, #B38728 100%);
+            color: #121212;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35);
+            transition: all 0.3s ease;
+        }
+        .btn-launch-live:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.55);
+        }
+        .btn-stop-live {
+            background: rgba(235, 87, 87, 0.12);
+            color: #eb5757;
+            border: 1px solid rgba(235, 87, 87, 0.4);
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-stop-live:hover {
+            background: rgba(235, 87, 87, 0.25);
+        }
+        .btn-preview-local {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-preview-local:hover {
+            border-color: #FFEFA6;
+            background: rgba(212, 175, 55, 0.12);
+        }
+
     </style>
     <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -503,6 +639,10 @@
                 <i data-lucide="database"></i>
                 <span>Catálogo y Precios</span>
             </button>
+            <button id="tab-christmas" class="tab-btn" onclick="adminPanel.switchTab('christmas', this)" style="border-color: rgba(212, 175, 55, 0.25);">
+                <i data-lucide="sparkles"></i>
+                <span>Edición Navidad (En Vivo)</span>
+            </button>
         </div>
 
         <!-- Sección de Pedidos -->
@@ -517,6 +657,13 @@
         <div id="catalog-section" class="admin-section">
             <div id="catalog-container">
                 <p style="text-align: center; color: var(--text-secondary);">Cargando catálogo...</p>
+            </div>
+        </div>
+
+        <!-- Sección de Decoración Navideña en Vivo -->
+        <div id="christmas-section" class="admin-section">
+            <div id="christmas-container">
+                <p style="text-align: center; color: var(--text-secondary);">Cargando configuración de temporada...</p>
             </div>
         </div>
 
