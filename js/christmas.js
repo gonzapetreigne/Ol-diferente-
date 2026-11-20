@@ -14,7 +14,8 @@
  * ============================================================================
  */
 (function () {
-    const FORCE_LIVE_MODE = 0; // 0 = controlado desde el Panel Admin (Supabase)
+    const FORCE_LIVE_MODE = 0;   // 0 = controlado desde el Panel Admin (Supabase)
+    const DEFAULT_LIVE_MODE = 3; // Modo inicial por defecto (Opción 3 activa en vivo)
 
     const MODES = {
         1: { garland: 'pine', lights: false, baubles: 'classic', cornerTree: false, snowflakes: false, sleigh: 'interval', every: 35000, holly: true,  crest: true, snow: 48 },
@@ -72,21 +73,32 @@
         }
 
         bootstrapImmediateState() {
-            const cachedLive = parseInt(sessionStorage.getItem('ole_xmas_live_mode') || '0', 10) || 0;
+            const rawSession = sessionStorage.getItem('ole_xmas_live_mode');
+            const cachedLive = rawSession !== null ? (parseInt(rawSession, 10) || 0) : DEFAULT_LIVE_MODE;
             const live = FORCE_LIVE_MODE || cachedLive;
+            const hasUrlParam = new URLSearchParams(window.location.search).has('navidad');
+            if (live > 0 && !hasUrlParam) {
+                localStorage.removeItem('ole_xmas_preview_mode');
+            }
             const preview = this.getPreview();
-            if (preview > 0) this.applyMode(preview, live === 0);
+            if (preview > 0 && hasUrlParam) this.applyMode(preview, live === 0);
             else if (live > 0) this.applyMode(live, false);
+            else if (preview > 0) this.applyMode(preview, true);
         }
 
         syncFromSupabase(dbValue) {
             const live = Math.max(0, parseInt(dbValue, 10) || 0);
             sessionStorage.setItem('ole_xmas_live_mode', String(live));
             const effectiveLive = FORCE_LIVE_MODE || live;
+            const hasUrlParam = new URLSearchParams(window.location.search).has('navidad');
+            if (effectiveLive > 0 && !hasUrlParam) {
+                localStorage.removeItem('ole_xmas_preview_mode');
+            }
             const preview = this.getPreview();
 
-            if (preview > 0) this.applyMode(preview, effectiveLive === 0);
+            if (preview > 0 && hasUrlParam) this.applyMode(preview, effectiveLive === 0);
             else if (effectiveLive > 0) this.applyMode(effectiveLive, false);
+            else if (preview > 0) this.applyMode(preview, true);
             else this.teardown();
         }
 

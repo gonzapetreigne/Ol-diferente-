@@ -40,7 +40,7 @@ class WebComponents {
         // Inyectar JS de Navidad si aún no está presente
         if (!window.OleChristmas && !document.querySelector('script[src*="christmas.js"]')) {
             const script = document.createElement('script');
-            script.src = `${this.basePath}js/christmas.js?v=4`;
+            script.src = `${this.basePath}js/christmas.js?v=5`;
             script.onload = () => {
                 if (typeof this.latestChristmasStock === 'number' && window.OleChristmas) {
                     window.OleChristmas.syncFromSupabase(this.latestChristmasStock);
