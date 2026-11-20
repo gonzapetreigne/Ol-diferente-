@@ -2,8 +2,8 @@ name: Supabase Keep-Alive
 
 on:
   schedule:
-    # Se ejecuta lunes, miércoles y viernes a las 12:00 UTC para evitar que pasen 7 días de inactividad
-    - cron: '0 12 * * 1,3,5'
+    # Se ejecuta todos los días dos veces al día (11:00 y 23:00 UTC) para generar actividad diaria constante
+    - cron: '0 11,23 * * *'
   workflow_dispatch: # Permite ejecutarlo manualmente desde la pestaña 'Actions' de GitHub
 
 jobs:
@@ -15,16 +15,38 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://bhrxmevodepoxkdesqvq.supabase.co' }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnhtZXZvZGVwb3hrZGVzcXZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzMzg0ODgsImV4cCI6MjA5MzkxNDQ4OH0.A-mYCWnT0O-QXVj31WK8J6JrD2Z1fMpt7dgGkiCmTZM' }}
         run: |
-          echo "Ejecutando ping a la base de datos de Supabase..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            "$SUPABASE_URL/rest/v1/profiles?select=id&limit=1")
-          
-          echo "Código de respuesta HTTP: $HTTP_STATUS"
-          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 206 ]; then
-            echo "Ping exitoso. La base de datos de Supabase permanece activa."
-          else
-            echo "Respuesta inesperada: $HTTP_STATUS"
-            exit 1
-          fi
+          echo "Ejecutando consultas reales a la base de datos de Supabase..."
+
+          check_endpoint() {
+            local LABEL="$1"
+            local ENDPOINT="$2"
+            local EXTRA_HEADER="$3"
+            local HTTP_STATUS
+
+            if [ -n "$EXTRA_HEADER" ]; then
+              HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+                -H "apikey: $SUPABASE_ANON_KEY" \
+                -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+                -H "$EXTRA_HEADER" \
+                "$SUPABASE_URL$ENDPOINT")
+            else
+              HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+                -H "apikey: $SUPABASE_ANON_KEY" \
+                -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+                "$SUPABASE_URL$ENDPOINT")
+            fi
+
+            echo "[$LABEL] HTTP: $HTTP_STATUS"
+            if [ "$HTTP_STATUS" -ne 200 ] && [ "$HTTP_STATUS" -ne 206 ]; then
+              echo "Error en [$LABEL]: respuesta inesperada $HTTP_STATUS"
+              exit 1
+            fi
+          }
+
+          # Consultas a tabla pública con filas reales ('inventory') + conteo y lectura de 'profiles'
+          check_endpoint "inventory-list" "/rest/v1/inventory?select=name,stock&limit=5" ""
+          check_endpoint "inventory-count" "/rest/v1/inventory?select=name&limit=1" "Prefer: count=exact"
+          check_endpoint "inventory-preorder" "/rest/v1/inventory?select=name,stock&stock=lt.0&limit=5" ""
+          check_endpoint "profiles-check" "/rest/v1/profiles?select=id&limit=1" ""
+
+          echo "Pings diarios exitosos. La base de datos de Supabase registra actividad."
