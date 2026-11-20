@@ -33,14 +33,14 @@ class WebComponents {
         if (!document.querySelector('link[href*="christmas.css"]')) {
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = `${this.basePath}css/christmas.css?v=3`;
+            link.href = `${this.basePath}css/christmas.css?v=4`;
             document.head.appendChild(link);
         }
 
         // Inyectar JS de Navidad si aún no está presente
         if (!window.OleChristmas && !document.querySelector('script[src*="christmas.js"]')) {
             const script = document.createElement('script');
-            script.src = `${this.basePath}js/christmas.js?v=3`;
+            script.src = `${this.basePath}js/christmas.js?v=4`;
             script.onload = () => {
                 if (typeof this.latestChristmasStock === 'number' && window.OleChristmas) {
                     window.OleChristmas.syncFromSupabase(this.latestChristmasStock);

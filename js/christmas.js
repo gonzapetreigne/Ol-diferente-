@@ -433,47 +433,228 @@
         }
 
         /* ---------------------------------------------------------------- */
-        /* 4. Trineo de Papá Noel                                            */
+        /* 4. Trineo Victoriano de Papá Noel con 3 Renos Castaños Detallados */
         /* ---------------------------------------------------------------- */
         sleighSVG() {
-            const reindeer = (cls, tx, ty, rudolph) => `
-                <g transform="translate(${tx} ${ty})"><g class="ole-xmas-reindeer ${cls}">
-                    <ellipse cx="38" cy="34" rx="22" ry="9" fill="url(#oxSlGold)"/>
-                    <path d="M52 30 L63 15 L70 17 L61 35 Z" fill="url(#oxSlGold)"/>
-                    <path d="M61 13 Q69 7 77 13 L83 17 Q79 21 72 19 L64 19 Z" fill="url(#oxSlGold)"/>
-                    <path d="M66 12 L62 2 M63.5 6 L58 3.5 M70 11 L74 1 M72 5 L78 3" stroke="#E8C766" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                    <path d="M56 38 L67 45 L73 43 M51 40 L60 50 L65 50 M22 38 L11 45 L5 43 M26 40 L15 51 L10 51" stroke="url(#oxSlGold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M17 30 L10 25" stroke="#E8C766" stroke-width="2.4" stroke-linecap="round"/>
-                    ${rudolph ? '<circle class="ole-xmas-rudolph-nose" cx="83" cy="17" r="3" fill="#FF3344"/><circle cx="83" cy="17" r="6" fill="#FF3344" opacity="0.3"/>' : ''}
-                </g></g>`;
+            const reindeer = (cls, tx, ty, scale, rudolph) => `
+                <g transform="translate(${tx} ${ty}) scale(${scale})">
+                    <g class="ole-xmas-reindeer ${cls}">
+                        <!-- Patas traseras y delanteras lejanas (sombra 3D) -->
+                        <path d="M26 60 L14 73 L5 71 L3 74 L16 77 L31 63 Z" fill="#5A3214"/>
+                        <path d="M32 62 L24 78 L18 81 L18 84 L28 81 L37 64 Z" fill="#5A3214"/>
+                        <path d="M72 58 L84 68 L92 64 L94 67 L84 73 L68 61 Z" fill="#5A3214"/>
+                        <path d="M67 61 L75 76 L71 83 L74 85 L80 76 L72 62 Z" fill="#5A3214"/>
+
+                        <!-- Astas ramificadas (asta lejana) -->
+                        <path d="M84 18 C80 9 72 4 64 2 M76 11 C76 5 79 1 82 -1 M70 6 C69 1 71 -3 74 -4" stroke="#8C6239" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+                        <!-- Oreja lejana -->
+                        <path d="M80 19 C75 15 71 17 73 21 C75 23 79 22 80 19 Z" fill="#6E3F19"/>
+
+                        <!-- Cola -->
+                        <path d="M19 49 C12 45 9 49 13 54 C16 56 20 54 21 51 Z" fill="url(#oxDeerFur)"/>
+                        <path d="M13 52 C14 55 18 55 20 52" stroke="#F3E1C8" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+                        <!-- Patas cercanas (con pezuñas oscuras) -->
+                        <path d="M23 58 C17 66 10 72 3 75 L1 79 L8 78 C15 74 23 68 29 60 Z" fill="url(#oxDeerFur)"/>
+                        <polygon points="1,79 8,78 6,75 2,75" fill="#231207"/>
+                        <path d="M70 57 C79 62 87 62 95 57 L98 60 L92 64 C84 67 75 65 66 60 Z" fill="url(#oxDeerFur)"/>
+                        <polygon points="95,57 98,60 93,63 91,60" fill="#231207"/>
+
+                        <!-- Cuerpo y Cuello esbelto del Reno -->
+                        <path d="M19 53 C18 44 28 41 42 43 C54 44 63 43 68 37 C73 30 76 21 80 17 C84 14 90 16 90 22 C89 29 84 42 79 52 C75 60 66 63 54 62 C39 61 21 61 19 53 Z" fill="url(#oxDeerFur)"/>
+
+                        <!-- Pecho y Vientre crema claro (estilo 3D referencia) -->
+                        <path d="M25 58 C38 61 54 61 67 59 C74 56 79 47 83 35 C85 28 86 24 85 22 C83 27 79 38 73 48 C66 55 44 56 25 58 Z" fill="url(#oxDeerCream)" opacity="0.92"/>
+
+                        <!-- Cabeza y Hocico -->
+                        <path d="M78 19 C81 13 89 13 95 17 C100 20 105 21 107 24 C108 27 104 30 98 29 C92 29 84 28 80 24 Z" fill="url(#oxDeerFur)"/>
+                        <!-- Mejilla suave -->
+                        <ellipse cx="89" cy="24" rx="6" ry="3.5" fill="#C68853" opacity="0.55"/>
+
+                        <!-- Oreja cercana con interior claro -->
+                        <path d="M81 20 C75 15 69 18 72 23 C75 26 80 24 81 20 Z" fill="url(#oxDeerFur)"/>
+                        <path d="M79 20.5 C75 17.5 72 19 74 22 C76 23.5 78.5 22.5 79 20.5 Z" fill="#F0D7B8"/>
+
+                        <!-- Ojo expresivo con brillo blanco -->
+                        <circle cx="90.5" cy="19.5" r="2.1" fill="#1F1006"/>
+                        <circle cx="91.2" cy="18.8" r="0.75" fill="#FFFFFF"/>
+
+                        <!-- Astas ramificadas principales (asta cercana iluminada) -->
+                        <path d="M85 16 C82 6 73 0 62 -2 M78 9 C79 2 83 -2 87 -4 M72 3 C72 -3 75 -7 79 -8 M67 0 C65 -5 67 -8 70 -10" stroke="url(#oxAntler)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+                        <!-- Arnés Navideño Rojo y Dorado con Cascabeles -->
+                        <path d="M66 39 C71 45 77 50 81 51" stroke="#B51B2E" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+                        <path d="M66 39 C71 45 77 50 81 51" stroke="#FFEFA6" stroke-width="1.2" stroke-dasharray="2 2" stroke-linecap="round" fill="none"/>
+                        <path d="M46 43 C47 51 47 57 46 62" stroke="#B51B2E" stroke-width="4" stroke-linecap="round" fill="none"/>
+                        <path d="M46 43 C47 51 47 57 46 62" stroke="#D4AF37" stroke-width="1" fill="none"/>
+                        <path d="M46 51 C57 52 68 49 75 47" stroke="#B51B2E" stroke-width="3.2" fill="none"/>
+                        <!-- Cabezada roja en el hocico -->
+                        <path d="M97 18 C98 22 97 26 95 29 M83 25 L96 27" stroke="#B51B2E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                        <circle cx="95" cy="27" r="1.6" fill="#FFEFA6"/>
+
+                        <!-- Cascabeles dorados en el pecho -->
+                        <circle cx="71" cy="46" r="2.6" fill="url(#oxSlGold)" stroke="#7A520A" stroke-width="0.5"/>
+                        <circle cx="76" cy="50" r="2.8" fill="url(#oxSlGold)" stroke="#7A520A" stroke-width="0.5"/>
+                        <circle cx="81" cy="53" r="2.5" fill="url(#oxSlGold)" stroke="#7A520A" stroke-width="0.5"/>
+
+                        <!-- Nariz (oscura o roja brillante en Rodolfo) -->
+                        ${rudolph
+                            ? `<circle class="ole-xmas-rudolph-nose" cx="107" cy="24" r="3.4" fill="#FF2233"/>
+                               <circle class="ole-xmas-rudolph-nose" cx="107" cy="24" r="7.5" fill="#FF2233" opacity="0.35"/>
+                               <circle cx="106.2" cy="23" r="1.1" fill="#FFF" opacity="0.85"/>`
+                            : `<ellipse cx="106.5" cy="24.2" rx="2.2" ry="1.8" fill="#231207"/>
+                               <circle cx="106" cy="23.6" r="0.6" fill="#FFF" opacity="0.5"/>`
+                        }
+                    </g>
+                </g>`;
 
             return `
-                <svg viewBox="0 0 340 112" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 520 165" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="oxSlGold" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#FFEFA6"/><stop offset="50%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#8B6914"/>
+                            <stop offset="0%" stop-color="#FFF5C0"/>
+                            <stop offset="45%" stop-color="#D4AF37"/>
+                            <stop offset="100%" stop-color="#7D5A0E"/>
                         </linearGradient>
-                        <linearGradient id="oxSlRed" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="#C8243A"/><stop offset="100%" stop-color="#5A0812"/>
+                        <linearGradient id="oxSlRed" x1="0" y1="0" x2="0.2" y2="1">
+                            <stop offset="0%" stop-color="#D9263E"/>
+                            <stop offset="55%" stop-color="#9B1122"/>
+                            <stop offset="100%" stop-color="#4A040C"/>
+                        </linearGradient>
+                        <linearGradient id="oxSlRedDark" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#7A0C1A"/>
+                            <stop offset="100%" stop-color="#360208"/>
+                        </linearGradient>
+                        <linearGradient id="oxDeerFur" x1="0.2" y1="0" x2="0.8" y2="1">
+                            <stop offset="0%" stop-color="#C27D44"/>
+                            <stop offset="55%" stop-color="#8C5122"/>
+                            <stop offset="100%" stop-color="#522C0E"/>
+                        </linearGradient>
+                        <linearGradient id="oxDeerCream" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#F7E7CE"/>
+                            <stop offset="100%" stop-color="#CFAF86"/>
+                        </linearGradient>
+                        <linearGradient id="oxAntler" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#E6C99E"/>
+                            <stop offset="100%" stop-color="#8A6336"/>
+                        </linearGradient>
+                        <linearGradient id="oxSack" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#B07D4F"/>
+                            <stop offset="60%" stop-color="#7D522B"/>
+                            <stop offset="100%" stop-color="#4A2E14"/>
                         </linearGradient>
                     </defs>
-                    <path d="M80 50 Q170 68 236 48 M236 48 Q280 40 316 34" stroke="#E8C766" stroke-width="1.1" fill="none"/>
-                    ${reindeer('r1', 168, 28, false)}
-                    ${reindeer('r2', 252, 14, true)}
-                    <path d="M20 62 Q16 40 30 34 Q44 38 44 62 Z" fill="url(#oxSlGold)"/>
-                    <path d="M26 36 Q30 30 34 35" stroke="#9E1B2B" stroke-width="2" fill="none"/>
-                    <path d="M42 62 Q42 36 60 33 Q78 35 82 62 Z" fill="url(#oxSlRed)"/>
-                    <path d="M76 44 L84 50" stroke="url(#oxSlRed)" stroke-width="6" stroke-linecap="round"/>
-                    <circle cx="85" cy="50" r="3" fill="#F5F0E6"/>
-                    <circle cx="64" cy="27" r="7.5" fill="#F1C9A5"/>
-                    <path d="M57 29 Q60 44 67 44 Q74 42 72 29 Q68 33 64 33 Q60 33 57 29 Z" fill="#FAF7F0"/>
-                    <path d="M56 24 Q62 10 76 13 Q84 16 86 25 L82 26 Q79 20 73 21 Q70 22 71 24 Z" fill="url(#oxSlRed)"/>
-                    <rect x="55" y="21.5" width="18" height="5" rx="2.5" fill="#FAF7F0"/>
-                    <circle cx="86" cy="26" r="3.2" fill="#FAF7F0"/>
-                    <path d="M14 90 L12 64 Q12 56 24 58 L96 60 Q104 46 118 50 Q110 60 108 74 Q104 90 90 90 Z" fill="url(#oxSlRed)" stroke="url(#oxSlGold)" stroke-width="2"/>
-                    <path d="M24 70 Q60 76 100 70" stroke="#E8C766" stroke-width="1" fill="none" opacity="0.8"/>
-                    <path d="M28 90 L26 100 M86 90 L88 100" stroke="url(#oxSlGold)" stroke-width="2.2"/>
-                    <path d="M4 96 Q2 104 12 104 H120 Q134 104 138 92" stroke="url(#oxSlGold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+                    <!-- Riendas dobles doradas (tras los renos) -->
+                    <path d="M138 78 Q210 92 276 72 Q345 55 376 54 Q442 40 478 36" stroke="#D4AF37" stroke-width="1.2" fill="none" opacity="0.85"/>
+
+                    <!-- 3 Renos Castaños en formación de vuelo escalonada -->
+                    ${reindeer('r1', 194, 48, 0.96, false)}
+                    ${reindeer('r2', 292, 30, 0.96, false)}
+                    ${reindeer('r3', 390, 12, 0.98, true)}
+
+                    <!-- Riendas principales doradas (frente) -->
+                    <path d="M136 81 Q205 98 265 82 Q335 66 364 64 Q432 48 468 44" stroke="url(#oxSlGold)" stroke-width="1.5" fill="none"/>
+
+                    <!-- ==================== TRINEO VICTORIANO & PAPÁ NOEL ==================== -->
+                    <g transform="translate(8, 16)">
+                        <!-- Patines dorados inferiores con volutas en S (estilo referencia 1 y 2) -->
+                        <g stroke="url(#oxSlGold)" fill="none" stroke-linecap="round">
+                            <!-- Soportes verticales y arabescos en S -->
+                            <path d="M36 106 L30 126 M78 108 L76 126 M124 106 L128 126" stroke-width="3"/>
+                            <path d="M18 116 C12 110 22 102 30 110 C36 116 28 126 20 125" stroke-width="2.2"/>
+                            <path d="M48 125 C44 114 64 114 60 125" stroke-width="2.2"/>
+                            <path d="M92 125 C88 114 108 114 104 125" stroke-width="2.2"/>
+                            <path d="M140 104 C152 104 160 118 148 124" stroke-width="2.4"/>
+                            <!-- Hoja principal del patín con rizo frontal -->
+                            <path d="M6 120 C4 126 12 127 24 127 L142 127 C164 127 178 112 175 96 C173 87 162 89 164 97 C165 102 171 100 170 95" stroke-width="3.4"/>
+                        </g>
+
+                        <!-- Regalos y Corona Navideña detrás del saco -->
+                        <rect x="18" y="42" width="18" height="16" rx="2" transform="rotate(-12 18 42)" fill="#1E5A3A" stroke="#FFEFA6" stroke-width="1"/>
+                        <line x1="27" y1="40" x2="24" y2="56" stroke="#E0384F" stroke-width="2.5"/>
+                        <rect x="34" y="34" width="17" height="15" rx="2" transform="rotate(6 34 34)" fill="#1E62A8" stroke="#FFEFA6" stroke-width="1"/>
+                        <line x1="42" y1="34" x2="41" y2="49" stroke="#FFEFA6" stroke-width="2.2"/>
+                        <rect x="24" y="28" width="16" height="14" rx="2" transform="rotate(-6 24 28)" fill="#D9263E" stroke="#FFEFA6" stroke-width="1"/>
+                        <!-- Corona de pino junto al saco -->
+                        <circle cx="17" cy="56" r="11" fill="#184A2E" stroke="#296E47" stroke-width="2.5" stroke-dasharray="3 2"/>
+                        <circle cx="12" cy="51" r="1.8" fill="#E0384F"/>
+                        <circle cx="22" cy="50" r="1.8" fill="#FFE066"/>
+                        <circle cx="15" cy="62" r="1.8" fill="#E0384F"/>
+                        <path d="M17 46 C13 42 10 47 15 49 C17 49 17 47 17 46 Z M17 46 C21 42 24 47 19 49 C17 49 17 47 17 46 Z" fill="#D9263E"/>
+
+                        <!-- Saco de Yute lleno de Regalos -->
+                        <path d="M22 86 C14 70 18 50 32 45 C42 42 56 46 60 58 C64 70 60 86 48 88 Z" fill="url(#oxSack)" stroke="#3D240E" stroke-width="1"/>
+                        <!-- Cuello fruncido y cuerda dorada del saco -->
+                        <path d="M27 46 C35 49 47 49 54 45" stroke="#D4AF37" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                        <path d="M32 54 C36 62 34 72 30 78 M46 52 C49 62 48 72 45 80" stroke="#5A391B" stroke-width="1" opacity="0.5" fill="none"/>
+
+                        <!-- Interior oscuro del trineo -->
+                        <path d="M48 64 L132 66 L128 96 L48 96 Z" fill="url(#oxSlRedDark)"/>
+
+                        <!-- ==================== PAPÁ NOEL DETALLADO ==================== -->
+                        <g>
+                            <!-- Piernas y botas -->
+                            <path d="M92 80 L118 82 L126 98 L112 100 L104 88 L88 88 Z" fill="#9B1122"/>
+                            <rect x="109" y="88" width="16" height="6" rx="3" transform="rotate(-12 109 88)" fill="#FFFFFF"/>
+
+                            <!-- Brazo izquierdo con campanita dorada en alto -->
+                            <path d="M92 50 C102 44 112 36 116 28" stroke="#B8192D" stroke-width="10" stroke-linecap="round" fill="none"/>
+                            <circle cx="115" cy="30" r="5.5" fill="#FFFFFF"/>
+                            <circle cx="118" cy="25" r="4.2" fill="#2A1B12"/>
+                            <!-- Campanita dorada -->
+                            <g transform="translate(120, 14) rotate(18)">
+                                <path d="M0 10 L10 10 L8 2 C7 0 3 0 2 2 Z" fill="url(#oxSlGold)" stroke="#7A520A" stroke-width="0.7"/>
+                                <circle cx="5" cy="11" r="1.8" fill="#7A520A"/>
+                            </g>
+
+                            <!-- Torso con traje rojo y borde de piel blanca -->
+                            <path d="M62 86 C60 64 66 46 82 44 C98 44 106 58 106 84 Z" fill="url(#oxSlRed)"/>
+                            <!-- Cinturón negro con hebilla dorada -->
+                            <path d="M63 73 Q85 76 105 72" stroke="#1E1410" stroke-width="6" fill="none"/>
+                            <rect x="92" y="68.5" width="8" height="9" rx="1.5" fill="none" stroke="url(#oxSlGold)" stroke-width="2.2"/>
+                            <!-- Borde vertical de piel blanca del abrigo -->
+                            <path d="M88 46 Q94 66 93 84" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+
+                            <!-- Rostro de Papá Noel (mejillas rosadas, ojos, nariz) -->
+                            <circle cx="84" cy="34" r="11" fill="#F6C6A4"/>
+                            <circle cx="90" cy="36" r="3.2" fill="#E88078" opacity="0.65"/>
+                            <circle cx="93.5" cy="33.5" r="2.2" fill="#E5726A"/>
+                            <!-- Ojo y ceja blanca -->
+                            <circle cx="88.5" cy="31" r="1.4" fill="#1F1209"/>
+                            <circle cx="89" cy="30.5" r="0.5" fill="#FFFFFF"/>
+                            <path d="M86 28.5 Q89 27 91.5 28.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+
+                            <!-- Barba blanca frondosa y bigote esculpido -->
+                            <path d="M73 35 C71 46 78 58 90 59 C100 59 106 50 103 40 C99 36 93 36 86 36 C80 36 75 34 73 35 Z" fill="#FFFFFF"/>
+                            <path d="M76 46 C82 54 94 55 100 47" stroke="#DCD5C7" stroke-width="1.2" fill="none"/>
+                            <!-- Bigote -->
+                            <path d="M85 37 C89 35 96 36 99 39 C95 41 89 40 85 37 Z M86 37 C82 36 77 38 76 41 C80 42 84 40 86 37 Z" fill="#F7F4EE" stroke="#DCD5C7" stroke-width="0.6"/>
+
+                            <!-- Gorro clásico de Papá Noel -->
+                            <path d="M71 29 C72 15 86 10 98 15 C106 18 110 26 107 33 C101 25 91 22 71 29 Z" fill="url(#oxSlRed)"/>
+                            <!-- Banda de piel blanca del gorro -->
+                            <path d="M70 29 Q83 24 96 28" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round" fill="none"/>
+                            <!-- Pompón blanco -->
+                            <circle cx="67" cy="28" r="5" fill="#FFFFFF" stroke="#E0D9CC" stroke-width="0.8"/>
+
+                            <!-- Brazo derecho sosteniendo las riendas -->
+                            <path d="M78 54 C88 60 102 64 116 63" stroke="url(#oxSlRed)" stroke-width="9.5" stroke-linecap="round" fill="none"/>
+                            <circle cx="116" cy="63" r="5.5" fill="#FFFFFF"/>
+                            <circle cx="122" cy="63" r="4.2" fill="#2A1B12"/>
+                        </g>
+
+                        <!-- Carrocería lateral del Trineo Victoriano con bordes y arabescos de oro -->
+                        <path d="M10 56 C18 54 26 62 32 76 C38 88 48 92 62 92 L92 92 C98 92 102 74 108 72 C115 70 120 77 117 85 C113 94 118 102 128 102 C139 102 146 92 144 82 C142 74 148 68 155 72 C162 76 158 92 146 102 C136 109 122 110 104 110 L46 110 C28 110 18 98 14 80 C11 67 6 58 10 56 Z" fill="url(#oxSlRed)" stroke="url(#oxSlGold)" stroke-width="2.4"/>
+
+                        <!-- Arabescos de filigrana dorada sobre el lateral del trineo (como imagen 2) -->
+                        <path d="M24 72 C28 88 40 98 58 99 C70 100 76 92 70 87 C65 83 58 89 63 94" stroke="url(#oxSlGold)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M34 86 C30 92 34 100 42 98 M82 99 C94 99 104 92 108 82" stroke="url(#oxSlGold)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                        <circle cx="112" cy="77" r="2.8" fill="url(#oxSlGold)"/>
+                        <circle cx="151" cy="76" r="2.5" fill="url(#oxSlGold)"/>
+                        <circle cx="13" cy="59" r="2.6" fill="url(#oxSlGold)"/>
+                    </g>
                 </svg>`;
         }
 
@@ -766,32 +947,100 @@
                     }
                 }
 
-                // Estela dorada del trineo de Papá Noel
+                // Estela mágica natural (tipo cola de cometa) bajo los patines del trineo y renos
                 if (this.sleighEl && this.sleighEl.classList.contains('flying')) {
                     const rect = this.sleighEl.getBoundingClientRect();
-                    if (rect.right > 0 && rect.left < w) {
-                        for (let k = 0; k < 2; k++) {
+                    if (rect.right > -40 && rect.left < w + 40) {
+                        for (let k = 0; k < 4; k++) {
+                            // 80% nacen a lo largo de toda la curva de los patines del trineo, 20% bajo las pezuñas de los 3 renos
+                            const fromReindeer = Math.random() < 0.22;
+                            const u = fromReindeer
+                                ? (0.40 + Math.random() * 0.52)
+                                : (0.02 + Math.pow(Math.random(), 1.15) * 0.32);
+
+                            // Curva natural siguiendo la inclinación del trineo y los renos
+                            const baseLineY = fromReindeer
+                                ? (0.64 - (u - 0.40) * 0.42)
+                                : (0.87 - u * 0.12);
+
+                            // Distribución Gaussiana suave (más densa en el centro del patín y difuminada hacia los bordes)
+                            const gauss = (Math.random() + Math.random() + Math.random() - 1.5) * (fromReindeer ? 7 : 10);
+
+                            const randType = Math.random();
+                            const pType = randType < 0.16 ? 'glow' : (randType < 0.44 ? 'star' : 'dust');
+
+                            // Vida muy variada con cola larga exponencial para que nunca se corte en línea recta
+                            const maxLife = pType === 'glow'
+                                ? (45 + Math.random() * 65)
+                                : (32 + Math.pow(Math.random(), 1.85) * 165);
+
                             this.trail.push({
-                                x: rect.left + rect.width * 0.05,
-                                y: rect.top + rect.height * (0.75 + Math.random() * 0.2),
-                                vx: -(Math.random() * 0.8 + 0.3),
-                                vy: (Math.random() - 0.3) * 0.6,
-                                life: 1,
-                                r: Math.random() * 1.8 + 0.8
+                                x: rect.left + rect.width * u + (Math.random() - 0.5) * 12,
+                                y: rect.top + rect.height * baseLineY + gauss,
+                                vx: -(Math.random() * 1.15 + 0.15),
+                                vy: (Math.random() - 0.32) * 0.55,
+                                gravity: (Math.random() - 0.38) * 0.012,
+                                age: 0,
+                                maxLife: maxLife,
+                                freq: Math.random() * 0.08 + 0.03,
+                                seed: Math.random() * Math.PI * 2,
+                                type: pType,
+                                isWhite: Math.random() < 0.35,
+                                baseAlpha: pType === 'glow' ? (Math.random() * 0.12 + 0.08) : (Math.random() * 0.5 + 0.45),
+                                r: pType === 'glow'
+                                    ? (Math.random() * 9 + 8)
+                                    : (pType === 'star' ? (Math.random() * 2.8 + 2.2) : (Math.random() * 1.7 + 0.6))
                             });
                         }
                     }
                 }
+
                 for (let i = this.trail.length - 1; i >= 0; i--) {
                     const t = this.trail[i];
-                    t.x += t.vx; t.y += t.vy; t.life -= 0.018;
-                    if (t.life <= 0) { this.trail.splice(i, 1); continue; }
-                    ctx.beginPath();
-                    ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255,228,140,${t.life * 0.9})`;
-                    ctx.fill();
+                    t.age++;
+                    if (t.age >= t.maxLife) {
+                        this.trail.splice(i, 1);
+                        continue;
+                    }
+
+                    const progress = t.age / t.maxLife;
+                    // Dispersión orgánica progresiva (se abre suavemente como polvo estelar en el aire)
+                    t.vy += t.gravity;
+                    t.vx *= 0.992;
+                    t.x += t.vx;
+                    t.y += t.vy + Math.sin(t.age * t.freq + t.seed) * (0.18 + progress * 0.55);
+
+                    // Fade-in suave al nacer + Fade-out cúbico con titileo estelar
+                    const fadeIn = Math.min(1, t.age / 7);
+                    const fadeOut = Math.pow(1 - progress, 2.2);
+                    const twinkle = t.type === 'glow' ? 1 : (0.75 + 0.25 * Math.sin(t.age * 0.25 + t.seed));
+                    const alpha = t.baseAlpha * fadeIn * fadeOut * twinkle;
+                    if (alpha <= 0.005) continue;
+
+                    const curR = t.type === 'glow'
+                        ? t.r * (0.8 + progress * 0.7)
+                        : t.r * (0.35 + 0.65 * (1 - progress));
+
+                    if (t.type === 'glow') {
+                        const g = ctx.createRadialGradient(t.x, t.y, 0, t.x, t.y, curR);
+                        g.addColorStop(0, `rgba(255, 238, 165, ${alpha})`);
+                        g.addColorStop(0.5, `rgba(212, 175, 55, ${alpha * 0.45})`);
+                        g.addColorStop(1, 'rgba(212, 175, 55, 0)');
+                        ctx.beginPath();
+                        ctx.arc(t.x, t.y, curR, 0, Math.PI * 2);
+                        ctx.fillStyle = g;
+                        ctx.fill();
+                    } else if (t.type === 'star') {
+                        this.drawStar(ctx, t.x, t.y, curR, alpha);
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(t.x, t.y, curR, 0, Math.PI * 2);
+                        ctx.fillStyle = t.isWhite
+                            ? `rgba(255, 252, 240, ${alpha})`
+                            : `rgba(255, 228, 135, ${alpha})`;
+                        ctx.fill();
+                    }
                 }
-                if (this.trail.length > 160) this.trail.splice(0, this.trail.length - 160);
             }
 
             requestAnimationFrame(() => this.animate());

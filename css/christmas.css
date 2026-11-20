@@ -112,49 +112,53 @@ body:not(.home-page) .ole-xmas-hat {
 }
 
 /* ============================================================================
-   4. TRINEO DE PAPÁ NOEL CRUZANDO LA PANTALLA
+   4. TRINEO DE PAPÁ NOEL CRUZANDO LA PANTALLA (3 RENOS + TRINEO VICTORIANO)
    ============================================================================ */
 .ole-xmas-sleigh {
-    --sleigh-w: 300px;
+    --sleigh-w: 420px;
     position: fixed;
-    top: 20vh;
+    top: 18vh;
     left: 0;
     width: var(--sleigh-w);
     pointer-events: none;
-    z-index: 9989;
+    z-index: 9991;
     visibility: hidden;
     will-change: transform;
-    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 14px rgba(212, 175, 55, 0.35));
 }
 .ole-xmas-sleigh svg { width: 100%; height: auto; display: block; overflow: visible; }
 
 .ole-xmas-sleigh.flying {
     visibility: visible;
-    animation: oleSleighFly 16s linear forwards;
+    animation: oleSleighFly 17s linear forwards;
 }
 @keyframes oleSleighFly {
-    0%   { transform: translate3d(calc(var(--sleigh-w) * -1.2), 30px, 0) rotate(-3deg); }
-    25%  { transform: translate3d(calc(25vw - var(--sleigh-w) / 2), 0px, 0) rotate(-5deg); }
-    50%  { transform: translate3d(calc(50vw - var(--sleigh-w) / 2), -25px, 0) rotate(-2deg); }
-    75%  { transform: translate3d(calc(75vw - var(--sleigh-w) / 2), -40px, 0) rotate(-6deg); }
-    100% { transform: translate3d(calc(100vw + 40px), -80px, 0) rotate(-8deg); }
+    0%   { transform: translate3d(calc(var(--sleigh-w) * -1.15), 42px, 0) rotate(-3deg); }
+    25%  { transform: translate3d(calc(25vw - var(--sleigh-w) / 2), 10px, 0) rotate(-5deg); }
+    50%  { transform: translate3d(calc(50vw - var(--sleigh-w) / 2), -22px, 0) rotate(-3deg); }
+    75%  { transform: translate3d(calc(75vw - var(--sleigh-w) / 2), -46px, 0) rotate(-6deg); }
+    100% { transform: translate3d(calc(100vw + 60px), -88px, 0) rotate(-8deg); }
 }
 
-.ole-xmas-reindeer { animation: oleGallop 0.5s ease-in-out infinite alternate; }
-.ole-xmas-reindeer.r2 { animation-delay: -0.25s; }
+.ole-xmas-reindeer {
+    animation: oleGallop 0.62s ease-in-out infinite alternate;
+    transform-origin: center;
+}
+.ole-xmas-reindeer.r2 { animation-delay: -0.21s; }
+.ole-xmas-reindeer.r3 { animation-delay: -0.42s; }
 @keyframes oleGallop {
-    0%   { transform: translateY(0); }
-    100% { transform: translateY(-3px); }
+    0%   { transform: translateY(2px) rotate(1.8deg); }
+    100% { transform: translateY(-4px) rotate(-2.2deg); }
 }
 .ole-xmas-rudolph-nose { animation: oleNoseGlow 0.9s ease-in-out infinite alternate; }
 @keyframes oleNoseGlow {
-    0%   { opacity: 0.6; }
+    0%   { opacity: 0.65; }
     100% { opacity: 1; }
 }
 
 @media (max-width: 768px) {
-    .ole-xmas-sleigh { --sleigh-w: 195px; top: 16vh; }
-    .ole-xmas-sleigh.flying { animation-duration: 11s; }
+    .ole-xmas-sleigh { --sleigh-w: 260px; top: 15vh; }
+    .ole-xmas-sleigh.flying { animation-duration: 12s; }
 }
 
 /* ============================================================================
